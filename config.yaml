@@ -15,17 +15,17 @@ documents:
   - query
 # Properties are the fields for your form
 properties:
-  # the key is the name of the variable that will be returned to your code
-  name:
-    # the title is what will be shown as the form label
-    title: Name
-    # a string is text
+  base_url:
+    title: Base URL
+    description: Base URL of the Datasette CA460 instance (no trailing slash)
     type: string
-  name2:
-    # the title is what will be shown as the form label
-    title: Name2
-    # a string is text
+  token:
+    title: API Token
+    description: Datasette API token used to authenticate the ingest request
     type: string
+required:
+  - base_url
+  - token
 # Categories are what type of Add-On this is. Used to sort the Add-On in the Add-On menu. 
 categories: 
   - file

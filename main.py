@@ -7,6 +7,8 @@ from DocumentCloud via the request dispatch and writes data back to
 DocumentCloud using the standard API
 """
 
+import requests
+
 from documentcloud.addon import AddOn
 
 
@@ -15,25 +17,23 @@ class HelloWorld(AddOn):
 
     def main(self):
         """The main add-on functionality goes here."""
-        # fetch your add-on specific data
-        name = self.data.get("name", "world")
+        base_url = self.data["base_url"].rstrip("/")
+        token = self.data["token"]
+        ingest_url = f"{base_url}/api/ingest"
 
         self.set_message("Hello World start!")
 
-        # add a hello note to the first page of each selected document
         for document in self.get_documents():
-            # get_documents will iterate through all documents efficiently,
-            # either selected or by query, dependeing on which is passed in
-            document.annotations.create(f"Hello {name} xxxx!", 0)
-
-        #with open("hello.txt", "w+") as file_:
-        #    file_.write("Hello world!")
-        #    result = self.upload_file(file_)
-        #    #assert result
-        #    print(result.json())
+            print(document, document.canonical_url)
+            response = requests.post(
+                ingest_url,
+                headers={"Authorization": f"Bearer {token}"},
+                json={"url": document.canonical_url},
+            )
+            print(response.status_code)
+            response.raise_for_status()
 
         self.set_message("Hello World end!")
-        #self.send_mail("Hello World!", "We finished!")
 
 
 if __name__ == "__main__":
