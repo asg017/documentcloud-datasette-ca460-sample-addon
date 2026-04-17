@@ -18,8 +18,9 @@ class HelloWorld(AddOn):
     def main(self):
         """The main add-on functionality goes here."""
         base_url = self.data["base_url"].rstrip("/")
+        database = self.data["database"]
         token = self.data["token"]
-        ingest_url = f"{base_url}/api/ingest"
+        ingest_url = f"{base_url}/{database}/-/ca460/api/ingest"
 
         self.set_message("Hello World start!")
 
